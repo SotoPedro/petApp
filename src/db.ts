@@ -1,4 +1,4 @@
-import mongoose from 'mongoose-unique-validator';
+import mongoose from 'mongoose';
 import config from './utils/config';
 //import { User } from './models/User/user.model';
 
