@@ -5,6 +5,7 @@ import http from 'http';
 import socketIO from 'socket.io';
 import fileUpload from 'express-fileupload';
 import UserRoutes from './models/User/user.routes';
+import PetRoutes from './models/Pets/pet.routes';
 
 export default class Server {
     //io: SocketIO.Server;
@@ -47,17 +48,11 @@ export default class Server {
     }
 
     private routes() {
-<<<<<<< HEAD
-=======
+
         this.app.get("/", (req,res) => { res.send("csm la Jenny")});
         this.app.use('/user', UserRoutes);
+        this.app.use('/pet', PetRoutes);
     }
->>>>>>> 17af4426ea70bb895dca3f72823f70274f036c7a
-
-        this.app.get("/", (req,res) => { res.send("csm la Jenny")});
-        this.app.use("/user",UserRoutes);
-    }
-
     //private sockets() {
       //  this.io.origins('*:*');
        // this.io.on('connection', client => {});

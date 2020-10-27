@@ -40,11 +40,9 @@ class UserController {
 
         if(population) {
             populate = [
-<<<<<<< HEAD
-                //{ path: 'rol' },
-=======
+                
                 // { path: 'rol' },
->>>>>>> 17af4426ea70bb895dca3f72823f70274f036c7a
+
             ];
         }
 
@@ -60,10 +58,7 @@ class UserController {
         let populate:any[] = [];
 
         if(population) {
-            populate = [
-<<<<<<< HEAD
-                //{ path: 'rol' },
-=======
+            populate =    [     
                 // { path: 'rol' },
             ];
         }
