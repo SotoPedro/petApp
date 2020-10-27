@@ -14,10 +14,13 @@ import bcrypt from 'bcryptjs';
 // } from "../../middlewares/permissions";
 import { userStructure } from "./user.middleware";
 import DB from "../../db";
+import { User } from "./user.model";
 
 const db = DB.instance;
 
 const UserRoutes = Router();
+
+UserRoutes.get('/',(req,res) => { res.send("From UserRoute")});
 
 UserRoutes.post('', [userStructure, imageIncluded], async (req: any, res: Response) => {
 
