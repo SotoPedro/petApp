@@ -6,8 +6,8 @@ import { ClientSession } from 'mongoose';
 class PetController {
 
     async save(pet: any, session?: ClientSession) {
-
-        return Pet.create([pet],{session});
+        
+        return Pet.create([pet], {session});
     }
 
     async getOne(filters: any, population: boolean = false, lean: boolean = true, session?:ClientSession) {

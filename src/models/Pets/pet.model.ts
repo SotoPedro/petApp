@@ -1,18 +1,19 @@
 import { Schema, model } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
-import IPet from "./Pet.interface";
+import IPet from "./pet.interface";
 
-const PetSchema = new Schema ({
+const petSchema = new Schema ({
     Owner: {
         type: Schema.Types.ObjectId,
        // required: [true, 'Se requiere la identificación del dueño']
+       default: null
     },
     name: {
         type: String,
         required: [true, 'Se requiere el nombre de la mascota']
     },
     age: {
-        type: Schema.Types.Number,
+        type: Number,
         required: [true, 'Se requiere la edad']
     },
     race: {
@@ -20,10 +21,11 @@ const PetSchema = new Schema ({
         required: [true, 'Se requiere una raza']
     },
     char: {
-        type: String
+        type: String,
+        default: null
     }
 });
 
-PetSchema.plugin(uniqueValidator, {message: 'El {PATH} {VALUE} ya existe'});
+petSchema.plugin(uniqueValidator, {message: 'El {PATH} {VALUE} ya existe'});
 
-export const Pet = model<IPet>('Pet',PetSchema);
+export const Pet = model<IPet>('Pet',petSchema);
