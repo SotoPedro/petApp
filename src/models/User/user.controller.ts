@@ -40,7 +40,7 @@ class UserController {
 
         if(population) {
             populate = [
-                { path: 'rol' },
+                // { path: 'rol' },
             ];
         }
 
@@ -57,7 +57,7 @@ class UserController {
 
         if(population) {
             populate = [
-                { path: 'rol' },
+                // { path: 'rol' },
             ];
         }
 
