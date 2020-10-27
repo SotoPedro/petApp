@@ -47,6 +47,12 @@ export default class Server {
     }
 
     private routes() {
+<<<<<<< HEAD
+=======
+        this.app.get("/", (req,res) => { res.send("csm la Jenny")});
+        this.app.use('/user', UserRoutes);
+    }
+>>>>>>> 17af4426ea70bb895dca3f72823f70274f036c7a
 
         this.app.get("/", (req,res) => { res.send("csm la Jenny")});
         this.app.use("/user",UserRoutes);
