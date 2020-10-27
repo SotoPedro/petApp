@@ -65,7 +65,6 @@ class UserController {
                 //{ path: 'rol' },
 =======
                 // { path: 'rol' },
->>>>>>> 17af4426ea70bb895dca3f72823f70274f036c7a
             ];
         }
 
