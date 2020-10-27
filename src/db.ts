@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import config from './utils/config';
 import { User } from './models/User/user.model';
+import { Pet } from './models/Pets/pet.model';
 
 
 export default class DB {
@@ -39,6 +40,7 @@ export default class DB {
     private async syncIndexes() {
         return Promise.all([
             User.syncIndexes(),
+            Pet.syncIndexes(),
         ]).catch(err => console.log(err));
     }
 }

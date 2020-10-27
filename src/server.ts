@@ -19,10 +19,8 @@ export default class Server {
         this.app = express();
         this.httpServer = new http.Server(this.app);
         this.port = Number(config.port);
-       // this.io = socketIO(this.httpServer);
         this.config();
         this.routes();
-       // this.sockets();
     }
 
     public static get instance() {
@@ -53,8 +51,4 @@ export default class Server {
         this.app.use('/user', UserRoutes);
         this.app.use('/pet', PetRoutes);
     }
-    //private sockets() {
-      //  this.io.origins('*:*');
-       // this.io.on('connection', client => {});
-    //}
 }

@@ -24,8 +24,6 @@ class UserController {
 
         const user = {
             alive: false,
-            status: false,
-            updatedBy: userLogged._id
         };
 
         filters = clearFilters(filters);

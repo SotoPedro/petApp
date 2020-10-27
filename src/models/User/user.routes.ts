@@ -51,7 +51,7 @@ UserRoutes.post('', [userStructure, imageIncluded], async (req: any, res: Respon
         await session.commitTransaction();
         session.endSession();
 
-        return res.status(200).json(GenericResponse.success(user, 'Se guardo el usuario correctamente'));
+        return res.status(200).json(GenericResponse.success(user, 'Se guardó el usuario correctamente'));
 
     } catch (error) {
 
