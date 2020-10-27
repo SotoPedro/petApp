@@ -43,7 +43,6 @@ export default class Server {
     }
 
     private routes() {
-        this.app.use("/", (req,res) => { res.send("csm la Jenny")});
-        
+        this.app.use("/", (req,res) => { res.send("csm la Jenny")});        
     }
 }
