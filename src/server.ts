@@ -2,10 +2,12 @@ import express from 'express';
 import config from './utils/config';
 import compression from 'compression';
 import http from 'http';
+import socketIO from 'socket.io';
 import fileUpload from 'express-fileupload';
+import UserRoutes from './models/User/user.routes';
 
 export default class Server {
-    //rio: SocketIO.Server;
+    io: SocketIO.Server;
 
     private app: express.Application;
     private port: number;
@@ -16,8 +18,10 @@ export default class Server {
         this.app = express();
         this.httpServer = new http.Server(this.app);
         this.port = Number(config.port);
+        this.io = socketIO(this.httpServer);
         this.config();
         this.routes();
+        this.sockets();
     }
 
     public static get instance() {
@@ -43,6 +47,16 @@ export default class Server {
     }
 
     private routes() {
+<<<<<<< HEAD
         this.app.use("/", (req,res) => { res.send("csm la Jenny")});        
+=======
+        this.app.use("/", (req,res) => { res.send("csm la Jenny")});
+        this.app.use('/user', UserRoutes);
+    }
+
+    private sockets() {
+        this.io.origins('*:*');
+        this.io.on('connection', client => {});
+>>>>>>> 39c9ce1d1e6d1e597c257a77413ff397b7468f33
     }
 }
