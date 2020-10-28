@@ -68,8 +68,8 @@ PetRoutes.put('/:petId', [imageIncluded], async (req: any, res: Response) => {
         return res.status(200).json(GenericResponse.success(pet,'Mascota almacenada en la bd'));
 
     } catch (error) {
-        await session.abortTransaction();
-        session.endSession();        
+        //await session.abortTransaction();
+        //session.endSession();        
         return res.status(400).json(GenericResponse.error(error,'Error al guardar su mascota'));
     }
 });

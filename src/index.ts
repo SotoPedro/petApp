@@ -7,5 +7,4 @@ const db = database.instance;
 db.open();
 server.start();
 
-console.log('pedro puto')
 

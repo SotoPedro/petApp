@@ -13,7 +13,7 @@ const petSchema = new Schema ({
         required: [true, 'El nombre es requerido']
     },
     age: {
-        type: Schema.Type.Number,
+        type: Number,
         required: [true, 'La edad es requerida']
     },
     breed: {
