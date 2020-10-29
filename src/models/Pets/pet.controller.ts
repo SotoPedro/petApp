@@ -1,8 +1,6 @@
 import { clearObject, clearFilters } from '../../utils/functions';
 import { Pet } from './pet.model';
 
-import { ClientSession } from 'mongoose';
-
 class PetController {
     
     async save(pet: any) {
@@ -29,7 +27,7 @@ class PetController {
         return Pet.findOneAndUpdate(filters, pet, {new: newsChanged}).lean(lean);
     }
 
-    async getOne(filters: any, population: boolean = false, lean: boolean = true) {
+    async getOne(filters: any, population: boolean = true, lean: boolean = true) {
 
         filters = clearFilters(filters);
 
@@ -37,7 +35,7 @@ class PetController {
 
         if(population) {
             populate = [
-                //
+                { path: 'owner' }
             ];
         }
 
@@ -54,7 +52,7 @@ class PetController {
 
         if(population) {
             populate = [
-                //
+                { path: 'owner' }
             ];
         }
 

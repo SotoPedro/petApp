@@ -5,8 +5,8 @@ import IPet from "./pet.interface";
 const petSchema = new Schema ({
     owner: {
         type: Schema.Types.ObjectId,
+        ref: 'User',
         required: [true, 'El ID del dueño es requerido']
-
     },
     name: {
         type: String,

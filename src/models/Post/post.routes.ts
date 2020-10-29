@@ -2,23 +2,23 @@ import { Router, Response } from "express";
 import GenericResponse from '../../utils/responses';
 import { filters } from "../../middlewares/filters";
 import postController from './post.controller';
-import { imageIncluded } from "../../middlewares/files";
-import { Post } from "./post.model";
 
 const PostRoutes = Router();
 
 PostRoutes.get('/',(req: any,res: Response) => { res.send("From Post Route")});
 
-PostRoutes.post('',[imageIncluded],async (req: any, res: Response) => {
+PostRoutes.post('', [],async (req: any, res: Response) => {
 
     try {
+
         const newPost = req.body;
 
         const post = await postController.save(newPost);
 
-        return res.status(200).json(GenericResponse.success(post, 'Se ha generado el post'));
+        return res.status(200).json(GenericResponse.success(post, 'Se guardó el post correctamente'));
+
     } catch (err) {
-        return res.status(400).json(GenericResponse.error(err,"No se pudo guardar el post"));
+        return res.status(400).json(GenericResponse.error(err, 'Error al guardar el post'));
     }
 });
 
@@ -29,11 +29,8 @@ PostRoutes.get('/list', [filters], async (req: any, res: Response) => {
         if(req.query.search) {
             req.query.filters.name = req.query.search;
         }
-        if(req.query.unit) {
-            req.query.filters.unit = req.query.unit;
-        }
 
-        const [posts, count] = await postController.getAll(req.query.limit, req.query.skip, req.query.filters, req.query.all, req.query.populate);
+        const [posts, count] = await postController.getAll(req.query.limit, req.query.skip, req.query.filters, req.query.all, true);
 
         let pagination = {};
 
@@ -50,13 +47,13 @@ PostRoutes.get('/list', [filters], async (req: any, res: Response) => {
             posts,
             count,
             ...pagination
-        }, "Se obtuvieron las publicaciones correctamente"));
+        }, 'Se obtuvieron los posts correctamente'));
     } catch (error) {
-        return res.status(400).json(GenericResponse.error(error, "Error al obtener las mascotas"));
+        return res.status(400).json(GenericResponse.error(error, 'Error al obtener los posts'));
     }
 });
 
-PostRoutes.put('/:postId', [imageIncluded], async (req: any, res: Response) => {
+PostRoutes.put('/:postId', [], async (req: any, res: Response) => {
 
     try {
 
@@ -64,12 +61,45 @@ PostRoutes.put('/:postId', [imageIncluded], async (req: any, res: Response) => {
 
         post = await postController.update(post, {_id: req.params.postId});
 
-        return res.status(200).json(GenericResponse.success(post,'Post Actualizado'));
+        return res.status(200).json(GenericResponse.success(post, 'Se actualizó el post correctamente'));
+
+    } catch (error) {       
+        return res.status(400).json(GenericResponse.error(error, 'Error al actualizar el post'));
+    }
+});
+
+
+PostRoutes.delete('/:postId', [], async (req: any, res: Response) => {
+
+    try {
+        
+        const pet = await postController.delete(null, {_id: req.params.postId});
+
+        if(!pet) {
+            return res.status(410).json(GenericResponse.error({}, "El post que desea eliminar no existe"));
+        }
+
+        return res.status(200).json(GenericResponse.success(pet, "Se eliminó el post correctamente"));
 
     } catch (error) {
-        //await session.abortTransaction();
-        //session.endSession();        
-        return res.status(400).json(GenericResponse.error(error,'Error al quitar el post'));
+        return res.status(400).json(GenericResponse.error(error, "Error al eliminar el post"));
+    }
+});
+
+PostRoutes.get('/single/:postId', [], async (req: any, res: Response) => {
+
+    try {
+        
+        const pet = await postController.getOne({_id: req.params.postId}, true);
+        
+        if(!pet) {
+            return res.status(410).json(GenericResponse.error({}, "el post que desea obtener no existe"));
+        }
+        
+        return res.status(200).json(GenericResponse.success(pet, "Se obtuvo el post correctamente"));
+
+    } catch (error) {
+        return res.status(400).json(GenericResponse.error(error, "Error al obtener el post"));
     }
 });
 

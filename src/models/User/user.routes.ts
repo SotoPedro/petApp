@@ -67,20 +67,7 @@ UserRoutes.get('/list', [filters], async (req: any, res: Response) => {
     try {
 
         if(req.query.search) {
-            req.query.filters.$or = [
-                {name: new RegExp(req.query.search, 'gi')},
-                {lastName: new RegExp(req.query.search, 'gi')},
-                {email: new RegExp(req.query.search, 'gi')},
-                {phone: new RegExp(req.query.search, 'gi')}
-            ];
-        }
-
-        if(req.query.rol) {
-            req.query.filters.rol = req.query.rol;
-        }
-
-        if(req.query.userType) {
-            req.query.filters.userType = req.query.userType;
+            req.query.filters.email = req.query.search;
         }
 
         const [users, count] = await userController.getAll(req.query.limit, req.query.skip, req.query.filters, req.query.all, true);

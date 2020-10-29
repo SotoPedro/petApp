@@ -1,6 +1,5 @@
 import { clearObject, clearFilters } from '../../utils/functions';
 import { Post } from './post.model';
-import { filter } from 'compression';
 
 class PostController {
 
@@ -10,11 +9,9 @@ class PostController {
 
     }
     
-    async update(postPublished: any, filters: any, newsChanged = true, lean: boolean = true) {
+    async update(post: any, filters: any, newsChanged = true, lean: boolean = true) {     
 
-        const post  = {
-            status: false,
-        }        
+        post = clearObject(post);
 
         filters = clearFilters(filters);
 
@@ -32,7 +29,7 @@ class PostController {
         return Post.findOneAndUpdate(filters,post,{new: newsChanged}).lean(lean);
     }    
 
-    async getOne(filters: any, population: boolean = false, lean: boolean = true) {
+    async getOne(filters: any, population: boolean = true, lean: boolean = true) {
 
         filters = clearFilters(filters);
 
@@ -40,7 +37,8 @@ class PostController {
 
         if(population) {
             populate = [
-                //
+                { path: 'owner' },
+                { path: 'pet' }
             ];
         }
 
@@ -57,7 +55,8 @@ class PostController {
 
         if(population) {
             populate = [
-                //
+                { path: 'owner' },
+                { path: 'pet' }
             ];
         }
 

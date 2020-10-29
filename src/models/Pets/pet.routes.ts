@@ -8,7 +8,7 @@ const PetRoutes = Router();
 
 PetRoutes.get('/',(req, res ) => { res.send("From PetRoutes")});
 
-PetRoutes.post('',[imageIncluded],async (req: any, res: Response) => {
+PetRoutes.post('', [imageIncluded],async (req: any, res: Response) => {
 
     try {
 
@@ -30,11 +30,8 @@ PetRoutes.get('/list', [filters], async (req: any, res: Response) => {
         if(req.query.search) {
             req.query.filters.name = req.query.search;
         }
-        if(req.query.unit) {
-            req.query.filters.unit = req.query.unit;
-        }
 
-        const [pets, count] = await petController.getAll(req.query.limit, req.query.skip, req.query.filters, req.query.all, req.query.populate);
+        const [pets, count] = await petController.getAll(req.query.limit, req.query.skip, req.query.filters, req.query.all, true);
 
         let pagination = {};
 
@@ -57,20 +54,53 @@ PetRoutes.get('/list', [filters], async (req: any, res: Response) => {
     }
 });
 
+
 PetRoutes.put('/:petId', [imageIncluded], async (req: any, res: Response) => {
+    
+    try {
+        
+        let pet = req.body;
+        
+        pet = await petController.update(pet, {_id: req.params.petId});
+        
+        return res.status(200).json(GenericResponse.success(pet, 'Se guardó la mascota correctamente'));
+
+    } catch (error) {     
+        return res.status(400).json(GenericResponse.error(error, 'Error al guardar la mascota'));
+    }
+});
+
+PetRoutes.delete('/:petId', [], async (req: any, res: Response) => {
 
     try {
+        
+        const pet = await petController.delete(null, {_id: req.params.petId});
 
-        let pet = req.body;
+        if(!pet) {
+            return res.status(410).json(GenericResponse.error({}, "La mascota que desea eliminar no existe"));
+        }
 
-        pet = await petController.update(pet, {_id: req.params.petId});
-
-        return res.status(200).json(GenericResponse.success(pet,'Mascota almacenada en la bd'));
+        return res.status(200).json(GenericResponse.success(pet, "Se eliminó la mascota correctamente"));
 
     } catch (error) {
-        //await session.abortTransaction();
-        //session.endSession();        
-        return res.status(400).json(GenericResponse.error(error,'Error al guardar su mascota'));
+        return res.status(400).json(GenericResponse.error(error, "Error al eliminar la mascota"));
+    }
+});
+
+PetRoutes.get('/single/:petId', [], async (req: any, res: Response) => {
+
+    try {
+        
+        const pet = await petController.getOne({_id: req.params.petId}, true);
+        
+        if(!pet) {
+            return res.status(410).json(GenericResponse.error({}, "La mascota que desea obtener no existe"));
+        }
+        
+        return res.status(200).json(GenericResponse.success(pet, "Se obtuvo la mascota correctamente"));
+
+    } catch (error) {
+        return res.status(400).json(GenericResponse.error(error, "Error al obtener la mascota"));
     }
 });
 

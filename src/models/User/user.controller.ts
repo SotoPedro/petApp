@@ -31,7 +31,7 @@ class UserController {
         return User.findOneAndUpdate(filters, user, {new: newsChanged}).lean(lean);
     }
 
-    async getOne(filters: any, population: boolean = false, lean: boolean = true, session?: ClientSession) {
+    async getOne(filters: any, population: boolean = true, lean: boolean = true, session?: ClientSession) {
 
         filters = clearFilters(filters);
         let populate:any[] = [];
