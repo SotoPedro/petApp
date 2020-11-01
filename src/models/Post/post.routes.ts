@@ -12,6 +12,8 @@ PostRoutes.post('', [],async (req: any, res: Response) => {
 
     try {
 
+        if(!req.body.owner) return res.status(400).send(GenericResponse.error({}, 'Error, se necesita un ID de un dueño'));
+
         const user: any = await userController.getOne({ _id: req.body.owner }, false, false);
         delete req.body.owner;
 

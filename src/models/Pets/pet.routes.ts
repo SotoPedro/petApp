@@ -2,16 +2,17 @@ import { Router, Response } from "express";
 import GenericResponse from '../../utils/responses';
 import { filters } from "../../middlewares/filters";
 import petController from "./pet.controller";
-import { imageIncluded } from "../../middlewares/files";
 import userController from '../User/user.controller';
 
 const PetRoutes = Router();
 
 PetRoutes.get('/',(req, res ) => { res.send("From PetRoutes")});
 
-PetRoutes.post('', [imageIncluded],async (req: any, res: Response) => {
+PetRoutes.post('', [],async (req: any, res: Response) => {
 
     try {
+
+        if(!req.body.owner) return res.status(400).send(GenericResponse.error({}, 'Error, se necesita un ID de un dueño'));
 
         const user: any = await userController.getOne({ _id: req.body.owner }, false, false);
         delete req.body.owner;
@@ -61,7 +62,7 @@ PetRoutes.get('/list', [filters], async (req: any, res: Response) => {
 });
 
 
-PetRoutes.put('/:petId', [imageIncluded], async (req: any, res: Response) => {
+PetRoutes.put('/:petId', [], async (req: any, res: Response) => {
     
     try {
         
