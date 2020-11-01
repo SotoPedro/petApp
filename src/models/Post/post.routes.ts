@@ -2,6 +2,7 @@ import { Router, Response } from "express";
 import GenericResponse from '../../utils/responses';
 import { filters } from "../../middlewares/filters";
 import postController from './post.controller';
+import userController from '../User/user.controller';
 
 const PostRoutes = Router();
 
@@ -11,9 +12,14 @@ PostRoutes.post('', [],async (req: any, res: Response) => {
 
     try {
 
-        const newPost = req.body;
+        const user: any = await userController.getOne({ _id: req.body.owner }, false, false);
+        delete req.body.owner;
 
+        const newPost = req.body;
         const post = await postController.save(newPost);
+
+        user.posts.push(post._id);
+        await user.save();
 
         return res.status(200).json(GenericResponse.success(post, 'Se guardó el post correctamente'));
 

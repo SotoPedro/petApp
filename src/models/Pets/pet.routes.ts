@@ -3,6 +3,7 @@ import GenericResponse from '../../utils/responses';
 import { filters } from "../../middlewares/filters";
 import petController from "./pet.controller";
 import { imageIncluded } from "../../middlewares/files";
+import userController from '../User/user.controller';
 
 const PetRoutes = Router();
 
@@ -12,9 +13,14 @@ PetRoutes.post('', [imageIncluded],async (req: any, res: Response) => {
 
     try {
 
-        const newPet = req.body;        
+        const user: any = await userController.getOne({ _id: req.body.owner }, false, false);
+        delete req.body.owner;
 
+        const newPet = req.body;        
         const pet = await petController.save(newPet);
+        
+        user.pets.push(pet._id);
+        await user.save();
 
         return res.status(200).json(GenericResponse.success(pet, 'Se guardó el registro correctamente'));
 

@@ -37,7 +37,7 @@ class PostController {
 
         if(population) {
             populate = [
-                { path: 'owner' },
+                // { path: 'owner' },
                 { path: 'pet' }
             ];
         }
@@ -55,7 +55,7 @@ class PostController {
 
         if(population) {
             populate = [
-                { path: 'owner' },
+                // { path: 'owner' },
                 { path: 'pet' }
             ];
         }

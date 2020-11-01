@@ -7,11 +7,6 @@ const postSchema = new Schema({
         type: String,
         required: [true, 'El contenido es requerido']
     },
-    owner: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: [true, 'El ID del dueño es requerido']
-    },
     pet: {
         type: Schema.Types.ObjectId,
         ref: 'Pet',
@@ -32,11 +27,7 @@ const postSchema = new Schema({
     versionKey: false
 });
 postSchema.index({alive: 1});
-postSchema.index({owner: 1});
-postSchema.index({owner: 1, pet: 1, alive: 1}, {unique: true, partialFilterExpression: {
-    alive: true
-}});
 
-postSchema.plugin(uniqueValidator,{meesage: "El {PATH} {VALUE} ya existe"});
+postSchema.plugin(uniqueValidator,{ message: "El {PATH} {VALUE} ya existe" });
 
 export const Post = model<IPost>('Post',postSchema);

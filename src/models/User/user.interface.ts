@@ -8,6 +8,8 @@ export default interface IUser extends Document {
     email: string;
     password: string;
     rol: string;
+    pets: string[];
+    posts: string[];
     createdAt: Date;
     updatedAt: Date;
     alive: boolean;

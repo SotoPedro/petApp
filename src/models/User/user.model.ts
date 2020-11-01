@@ -37,6 +37,16 @@ const userSchema = new Schema({
         },
         default: null
     },
+    pets: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Pet',
+        default: null
+    }],
+    posts: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Post',
+        default: null
+    }],
     alive: {
         type: Boolean,
         default: true

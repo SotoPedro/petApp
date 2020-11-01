@@ -13,20 +13,12 @@ import bcrypt from 'bcryptjs';
 //     deleteConfigUsersAndGroups 
 // } from "../../middlewares/permissions";
 import { userStructure } from "./user.middleware";
-import DB from "../../db";
-import { User } from "./user.model";
-
-const db = DB.instance;
 
 const UserRoutes = Router();
 
 UserRoutes.get('/',(req,res) => { res.send("From UserRoute")});
 
 UserRoutes.post('', [userStructure, imageIncluded], async (req: any, res: Response) => {
-
-    const session = await db.db.startSession();
-
-    session.startTransaction();
 
     try {
 
@@ -46,18 +38,11 @@ UserRoutes.post('', [userStructure, imageIncluded], async (req: any, res: Respon
         // }
 
 
-        const [user] = await userController.save(newUser, session);
-
-        await session.commitTransaction();
-        session.endSession();
+        const [user] = await userController.save(newUser);
 
         return res.status(200).json(GenericResponse.success(user, 'Se guardó el usuario correctamente'));
 
     } catch (error) {
-
-        await session.abortTransaction();
-        session.endSession();
-        
         return res.status(400).json(GenericResponse.error(error, "Error al guardar el usuario"));
     }
 });
@@ -97,10 +82,6 @@ UserRoutes.get('/list', [filters], async (req: any, res: Response) => {
 
 UserRoutes.put('/:userId', [imageIncluded], async (req: any, res: Response) => {
 
-    const session = await db.db.startSession();
-
-    session.startTransaction();
-
     try {
 
         let user = req.body;
@@ -110,10 +91,6 @@ UserRoutes.put('/:userId', [imageIncluded], async (req: any, res: Response) => {
         ]);
 
         if(!user) {
-
-            await session.abortTransaction();
-            session.endSession();
-
             return res.status(410).json(GenericResponse.error(req.body, "El usuario que desea modificar no existe"));
         }
 
@@ -129,15 +106,9 @@ UserRoutes.put('/:userId', [imageIncluded], async (req: any, res: Response) => {
 
         //     await user.save();
         // }
-
-        await session.commitTransaction();
-        session.endSession();
         
         return res.status(200).json(GenericResponse.success(user, "Se ha modificado el usuario correctamente"));
     } catch (error) {
-
-        await session.abortTransaction();
-        session.endSession();
 
         return res.status(400).json(GenericResponse.error(error, "Error al modificar el usuario"));
     }

@@ -2,7 +2,6 @@ import { Document } from 'mongoose';
 
 export default interface IPet extends Document {
     _id: string;
-    owner: string
     name: string;
     breed: string;
     chars: string

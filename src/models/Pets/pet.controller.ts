@@ -35,7 +35,7 @@ class PetController {
 
         if(population) {
             populate = [
-                { path: 'owner' }
+                // { path: 'owner' }
             ];
         }
 
@@ -52,7 +52,7 @@ class PetController {
 
         if(population) {
             populate = [
-                { path: 'owner' }
+                // { path: 'owner' }
             ];
         }
 
